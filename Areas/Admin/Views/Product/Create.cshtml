@@ -1,0 +1,47 @@
+﻿
+@model CreateProductVM
+<div class="content-wrapper">
+	<div class="row">
+		<div class="col-lg-12 grid-margin stretch-card">
+			<div class="card">
+				<div class="card-body">
+					<form class="forms-sample" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<label asp-for="Image">Image</label>
+							<input asp-for="Image" class="form-control" id="Image" placeholder="Images" >
+							<span class="text-danger" asp-validation-for="Image" ></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="Tittle">Tittle</label>
+							<input asp-for="Tittle"  class="form-control" id="Tittle" placeholder="Tittle">
+							<span class="text-danger" asp-validation-for="Tittle"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="Price">Price</label>
+							<input asp-for="Price"  class="form-control" id="Price" placeholder="Price">
+							<span class="text-danger" asp-validation-for="Price"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="Order">Order</label>
+							<input asp-for="Order" class="form-control" id="Order" placeholder="Order" >
+							<span class="text-danger" asp-validation-for="Order"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="CategoryId">CategoryId</label>
+							<input asp-for="CategoryId" class="form-control" id="name" placeholder="CategoryId" >
+							<span class="text-danger" asp-validation-for="CategoryId"></span>
+						</div>
+						<select asp-for="CategoryId">
+							@foreach (Category category in ViewBag.Categories)
+							{
+								<option value="@category.Id">@category.Name</option>
+							}
+						</select>
+						<button type="submit" class="btn btn-primary me-2">Submit</button>
+						<a asp-action="Index" class="btn btn-light">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
