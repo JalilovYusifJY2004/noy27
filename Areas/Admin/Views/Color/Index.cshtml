@@ -1,4 +1,4 @@
-﻿@model List<Tag>
+﻿@model List<Color>
 @{
     int count = 0;
 }
@@ -20,13 +20,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (Tag tag in Model)
+                                @foreach (Color color in Model)
                                 {
                                     count++;
                                     <tr>
                                         <td> @count</td>
-                                        <td> @tag.Name </td>
-                                        <td> @tag.ProductTags.Count </td>
+                                        <td> @color.Name </td>
+                                        <td> @color.ProductColors.Count </td>
                                         <td>
                                             <a class="btn btn-info "> <i class="mdi mdi-pen"></i> Update</a>
                                             <a class="btn btn-danger  "> <i class="mdi mdi-delete"></i> Delete</a>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cWR+JfcibNKuChRD5v9mdx5JotFwuIKnr9m2RMpBl90=",
+  "Hash": "mMkjkxq3xhahxO7CWdPAgUiW+l8j8E03OiEhTnSeIf0=",
   "Source": "16noyabr",
   "BasePath": "_content/16noyabr",
   "Mode": "Default",
@@ -3245,6 +3245,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\slider\\1.png"
+    },
+    {
+      "Identity": "C:\\Users\\Zeynal\\Desktop\\Noybr17\\wwwroot\\assets\\images\\slider\\1aea9c88-5ea1-4c41-bf17-90434be26a481.jpeg",
+      "SourceId": "16noyabr",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Zeynal\\Desktop\\Noybr17\\wwwroot\\",
+      "BasePath": "_content/16noyabr",
+      "RelativePath": "assets/images/slider/1aea9c88-5ea1-4c41-bf17-90434be26a481.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\images\\slider\\1aea9c88-5ea1-4c41-bf17-90434be26a481.jpeg"
     },
     {
       "Identity": "C:\\Users\\Zeynal\\Desktop\\Noybr17\\wwwroot\\assets\\images\\slider\\5d5e5f48-6a1a-4cf7-926c-63824d21815e1.jpeg",

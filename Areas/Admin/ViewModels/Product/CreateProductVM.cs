@@ -15,6 +15,8 @@ namespace _16noyabr.Areas.Admin.ViewModels
 
         public int? CategoryId { get; set; }
 
- 
+        public List<int>  TagIds  { get; set; }
+
+
     }
 }

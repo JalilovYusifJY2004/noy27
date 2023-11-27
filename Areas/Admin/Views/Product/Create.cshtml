@@ -29,7 +29,11 @@
 						<div class="form-group">
 							<label asp-for="CategoryId">CategoryId</label>
 							<input asp-for="CategoryId" class="form-control" id="name" placeholder="CategoryId" >
-							<span class="text-danger" asp-validation-for="CategoryId"></span>
+
+							<label asp-for="TagIds">TagIds</label>
+							<input asp-for="TagIds" class="form-control" id="name" placeholder="TagIds">
+
+							<span class="text-danger" asp-validation-for="TagIds"></span>
 						</div>
 						<select asp-for="CategoryId">
 							@foreach (Category category in ViewBag.Categories)
