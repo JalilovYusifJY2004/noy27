@@ -12,8 +12,13 @@ namespace _16noyabr.Areas.Admin.ViewModels
         public int Order { get; set; }
         public string Image { get; set; }
 
+        public IFormFile MainPhoto { get; set; }
+		public IFormFile HoverPhoto { get; set; }
 
-        public int? CategoryId { get; set; }
+		public List<IFormFile>? Photos { get; set; }
+
+
+		public int? CategoryId { get; set; }
 
         public List<int>  TagIds  { get; set; }
 
