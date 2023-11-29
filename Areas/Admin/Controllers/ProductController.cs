@@ -92,12 +92,12 @@ namespace _16noyabr.Areas.Admin.Controllers
             ProductImage image = new ProductImage
             {
                 IsPrimary = true,
-                Url = await productVM.MainPhoto.CreateFile(_env.WebRootPath,"assets","images","website-image")
+                Url = await productVM.MainPhoto.CreateFileAsync(_env.WebRootPath,"assets","images","website-image")
             };
 			ProductImage hoverimage = new ProductImage
 			{
 				IsPrimary = false,
-				Url = await productVM.HoverPhoto.CreateFile(_env.WebRootPath, "assets", "images", "website-image")
+				Url = await productVM.HoverPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "website-image")
 			};
 			Product product = new Product
 			{
@@ -141,7 +141,7 @@ namespace _16noyabr.Areas.Admin.Controllers
                 {
                    
                     IsPrimary=null,
-                    Url=await photos.CreateFile(_env.WebRootPath, "assets", "images", "website-image")
+                    Url=await photos.CreateFileAsync(_env.WebRootPath, "assets", "images", "website-image")
                 });
 			}
 
@@ -152,7 +152,7 @@ namespace _16noyabr.Areas.Admin.Controllers
         public async Task<IActionResult> Update(int id)
         {
             if (id <= 0) return BadRequest();
-            Product product = await _context.Products.Include(p=>p.ProductTags).FirstOrDefaultAsync(c=>c.Id==id);
+            Product product = await _context.Products.Include(p=>p.ProductImages).Include(p=>p.ProductTags).FirstOrDefaultAsync(c=>c.Id==id);
             if (product == null) return NotFound();
             UpdateProductVM productVM = new UpdateProductVM
             {
@@ -160,7 +160,9 @@ namespace _16noyabr.Areas.Admin.Controllers
                 Price = product.Price,
                 CategoryId = product.CategoryId,
                 TagIds=product.ProductTags.Select(pt=>pt.TagId).ToList(),
+                ProductImages=product.ProductImages,
                 Categories=await _context.Categories.ToListAsync(),
+
                 //Tags  =await _context.Tags.ToListAsync(),    
 
             };
@@ -174,16 +176,92 @@ namespace _16noyabr.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 productVM.Categories = await _context.Categories.ToListAsync();
-                return View();
+		
+
+				return View();
             }
-     Product existed=await _context.Products.FirstOrDefaultAsync(p=>p.Id==id);
+     Product existed=await _context.Products.Include(p=>p.ProductTags).Include(pi=>pi.ProductImages).FirstOrDefaultAsync(p=>p.Id==id);
             if (existed is null) return NotFound();
             bool result = await _context.Categories.AnyAsync(c => c.Id == productVM.CategoryId);
             if(!result) 
             {
                 productVM.Categories = await _context.Categories.ToListAsync();
-                return View();
+                return View(productVM);
             }
+
+            if (productVM.MainPhoto is not null)
+              
+            {
+                if (productVM.MainPhoto.ValidateType("image/"))
+                {
+					productVM.Categories = await _context.Categories.ToListAsync();
+					//productVM.Tags = await _context.Tags.ToListAsync();
+					ModelState.AddModelError("MainPhoto", "yanlis");
+					return View();
+				}
+				if (productVM.MainPhoto.ValidateSize(600))
+				{
+					productVM.Categories = await _context.Categories.ToListAsync();
+					//productVM.Tags = await _context.Tags.ToListAsync();
+					ModelState.AddModelError("MainPhoto", "yanlis");
+					return View();
+				}
+			}
+			if (productVM.MainPhoto is not null)
+
+			{
+				if (productVM.HoverPhoto.ValidateType("image/"))
+				{
+					productVM.Categories = await _context.Categories.ToListAsync();
+					//productVM.Tags = await _context.Tags.ToListAsync();
+					ModelState.AddModelError("HoverPhoto", "yanlis");
+					return View();
+				}
+				if (productVM.HoverPhoto.ValidateSize(600))
+				{
+					productVM.Categories = await _context.Categories.ToListAsync();
+					//productVM.Tags = await _context.Tags.ToListAsync();
+					ModelState.AddModelError("HoverPhoto", "yanlis");
+					return View();
+				}
+
+               
+			}
+            if (productVM.MainPhoto is not null)
+            {
+                string filename = await productVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "ebsite-images");
+                ProductImage mainImage = existed.ProductImages.FirstOrDefault(pi => pi.IsPrimary == true);
+                mainImage.Url.DeleteFile(_env.WebRootPath, "assets", "images", "ebsite-images");
+                _context.ProductImages.Remove(mainImage);
+                existed.ProductImages.Add(new ProductImage
+                {
+
+                    IsPrimary = true,
+                    Url = filename
+
+                });
+            }
+				if (productVM.HoverPhoto is not null)
+				{
+					string filename = await productVM.HoverPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "ebsite-images");
+					ProductImage hoverImage = existed.ProductImages.FirstOrDefault(pi => pi.IsPrimary == false);
+					hoverImage.Url.DeleteFile(_env.WebRootPath, "assets", "images", "ebsite-images");
+					_context.ProductImages.Remove(hoverImage);
+					existed.ProductImages.Add(new ProductImage
+					{
+
+						IsPrimary = false,
+						Url = filename
+
+					});
+				}
+       List<ProductImage> removeable= existed.ProductImages.Where(pi=>productVM.ImageIds.Exists(ImgId=>ImgId==pi.Id)&&pi.IsPrimary==null).ToList();
+            foreach (ProductImage pImage in removeable)
+            {
+                pImage.Url.DeleteFile(_env.WebRootPath, "assets", "images", "ebsite-images");
+                existed.ProductImages.Remove(pImage);
+
+			}
             existed.Tittle = productVM.Tittle;
             existed.Price = productVM.Price;
             existed.CategoryId = productVM.CategoryId;

@@ -60,7 +60,7 @@ namespace _16noyabr.Areas.Admin.Controllers
                 return View();
             }
 
-        string fileName = await slideVM.Image.CreateFile(_env.WebRootPath, "assets", "images", "slider");
+        string fileName = await slideVM.Image.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
             Slide slide = new Slide
             {
                 //Image = fileName,
@@ -117,7 +117,7 @@ namespace _16noyabr.Areas.Admin.Controllers
                     ModelState.AddModelError("Image", "2mb olsun");
                     return View(slideVM);
                 }
-                string newImage = await slideVM.Image.CreateFile(_env.WebRootPath, "assets", "images", "slider");
+                string newImage = await slideVM.Image.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
                 existed.Images.DeleteFile(_env.WebRootPath, "assets", "images", "slider");
                 existed.Images = newImage;
                  }

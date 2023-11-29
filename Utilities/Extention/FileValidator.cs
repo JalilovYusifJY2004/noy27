@@ -20,7 +20,7 @@ namespace _16noyabr.Utilities.Extention
             }
             return true;
         }
-        public  async static Task<string> CreateFile(this IFormFile file, string root,params string[] folders)
+        public  async static Task<string> CreateFileAsync(this IFormFile file, string root,params string[] folders)
         {
             string filename = Guid.NewGuid().ToString() + file.FileName;
             string path = root;
